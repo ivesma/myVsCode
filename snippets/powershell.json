@@ -1,0 +1,90 @@
+{
+	// Place your snippets for powershell here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"Add file name comment": {
+		"description": "Add file name comment",
+		"prefix": "cmt-filename",
+		"body": "# ${TM_FILENAME}"
+	},
+	"Add file funcname var": {
+		"description": "Add file name as a variable",
+		"prefix": "funcname-var",
+		"body": "$$funcName = ((Split-Path $$PSCommandPath -Leaf) -replace '\.ps1', '')"
+	},
+	"Pester Test File Basic structure": {
+		"description": "Pester Test File Basic structure",
+		"prefix": "pester-basic",
+		"body": [
+			"BeforeAll {",
+			"	. (Join-Path $$PSScriptRoot ('..\{0}' -f ((Split-Path $$PSCommandPath -Leaf) -replace '\.Tests.ps1','.ps1')) -Resolve)",
+			"}",
+			"",
+			"Describe ""Get-Emoji"" {",
+			"	It ""Returns 🌵 (cactus)"" {",
+			"		Get-Emoji -Name cactus | Should -Be '🌵'",
+			"	}",
+			"}"
+		]
+	},
+	"Testable Basic Script": {
+		"description": "Add file name as a variable",
+		"prefix": "testable-script",
+		"body": [
+			"[CmdletBinding()]",
+			"param ()",
+			"",
+			"$$ErrorActionPreference = 'stop'",
+			"",
+			"if ($$null -eq (Get-PSCallStack | Where-Object { $$_.Location.ToLower().Contains('pester') })) {",
+			"    Write-Host 'Calling main function ${TM_FILENAME_BASE}'",
+			"} else {",
+			"	Write-Warning 'Called from Pester'",
+			"}",
+			"",
+			"function ${TM_FILENAME_BASE} {"
+			"${TM_SELECTED_TEXT}"
+			"}"
+		]
+	},
+	"Verbose Message": {
+		"description": "Add a verbose message to a function name extracted from callstack",
+		"prefix": "msgverbose",
+		"body": "Write-Verbose ('[{0}|{1}] ${1:message-text}' -f (Get-Date -Format 'yyyy-MMM-dd hh:mm:ss'), (Get-PSCallStack | Select-Object -First 1 -ExpandProperty Command))"
+	},
+	"Host Message": {
+		"description": "Add a message to a function name extracted from callstack",
+		"prefix": "msghost",
+		"body": "Write-Host ('[{0}|{1}] ${1:message-text}' -f (Get-Date -Format 'yyyy-MMM-dd hh:mm:ss'), (Get-PSCallStack | Select-Object -First 1 -ExpandProperty Command))"
+	},
+	"Import local module": {
+		"description": "Add import of local module",
+		"prefix": "impLocalModule",
+		"body": "Import-Module ((Get-ChildItem (Join-Path $$PSScriptRoot '..\\..' -Resolve) -Recurse -Filter '${0:DevopsUtils.psd1}') | Select-Object -First 1 -ExpandProperty FullName)"
+	},
+	"BashUtils Import Lite module": {
+		"description": "Add a message to a function name extracted from callstack",
+		"prefix": "impBashLiteLocalModule",
+		"body": ". (Join-Path $$PSScriptRoot '.\\module\\DevopsUtilsLite.ps1' -Resolve)"
+	},
+	"Transcript Log Start Message": {
+		"description": "Outputs a start message for transcript log",
+		"prefix": "ts_LogStart",
+		"body": "Write-Host ('[{0}|{1}] --STARTED: ${1:message-text}' -f (Get-Date -Format 'yyyy-MMM-dd hh:mm:ss'), '${TM_FILENAME_BASE}')"
+	},
+	"Transcript Log End Message": {
+		"description": "Outputs a start message for transcript log",
+		"prefix": "ts_LogEnd",
+		"body": "Write-Host ('[{0}|{1}] ----ENDED: ${1:message-text}' -f (Get-Date -Format 'yyyy-MMM-dd hh:mm:ss'), '${TM_FILENAME_BASE}')"
+	}
+}
