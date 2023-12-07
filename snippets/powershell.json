@@ -86,5 +86,10 @@
 		"description": "Outputs a start message for transcript log",
 		"prefix": "ts_LogEnd",
 		"body": "Write-Host ('[{0}|{1}] ----ENDED: ${1:message-text}' -f (Get-Date -Format 'yyyy-MMM-dd hh:mm:ss'), '${TM_FILENAME_BASE}')"
+	},
+	"Transcript Log Message": {
+		"description": "Outputs a message for transcript log",
+		"prefix": "ts_LogMsg",
+		"body": "Write-Host ('[{0}|{1}] ${1:message-text}' -f (Get-Date -Format 'yyyy-MMM-dd hh:mm:ss'), '${TM_FILENAME_BASE}')"
 	}
 }
